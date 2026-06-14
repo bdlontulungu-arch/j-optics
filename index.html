@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J.OPTICS - Édition Photogray</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0A0A;
+    --gold: #D4AF37;
+    --gold-light: #E5C558;
+    --white: #FFFFFF;
+    --gray: #A3A3A3;
+    --gray-dark: #1A1A1A;
+  }
+  
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  html { scroll-behavior: smooth; }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    line-height: 1.6;
+  }
+  
+  .container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  /* Animation au scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease;
+  }
+  
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .slides {
+  display: flex;
+  transition: transform 0.5s ease;
+  touch-action: pan-y; /* évite le scroll vertical quand on swipe */
+}
+
+  .slide {
+    min-width: 100%;
+    position:relative;
+  
+  }
+  .slide-img{
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display:block;
+  }
+
+
+
+   .hero-slider {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 20px 0 40px;
+  }
+  .hero-slider img {
+    width: 100%;
+    height: 550px;
+    object-fit: cover;
+    display: block;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px;
+  }
+  
+
+  .hero-subtitle {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--gray);
+    text-align: center;
+    margin-top: 8px;
+  }
+  .hero-features {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    text-align: center;
+  }
+
+  .slider-counter {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(0,0,0,0.5);
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 11px;
+  }
+  .slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gray-dark);
+  }
+  .dot.active {
+    width: 20px;
+    border-radius: 4px;
+    background: var(--gold);
+  }
+  
+  /* Header */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--gray-dark);
+  }
+  
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+  }
+  
+  .btn-header {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--white);
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1px solid var(--gray-dark);
+    transition: all 0.3s;
+  }
+  
+  .btn-header:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  
+  /* Badges */
+  .badges {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 40px 0;
+  }
+  
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--black);
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    width: fit-content;
+  }
+
+  
+  .badge::before {
+    content: '✓';
+    color: var(--gold);
+    font-weight: bold;
+  }
+  
+  /* CTA Button */
+  .btn-cta {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--black);
+    text-align: center;
+    padding: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: none;
+    margin: 32px 0 60px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .btn-cta:hover { transform: scale(1.02); }
+  .btn-cta:active { transform: scale(0.98); }
+  .btn-cta:disabled { opacity: 0.6; cursor: not-allowed; }
+  
+  /* Sections */
+  section { padding: 60px 0; border-bottom: 1px solid var(--gray-dark); }
+  
+  h1, h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    text-align: center;
+    font-size: 36px;
+    line-height: 1.2;
+    margin-bottom: 24px;
+  }
+  
+  h1 em, h2 em {
+    color: var(--gold);
+  }
+
+
+  h3 em {
+    font-size: 13px;
+    color: var(--gold-light);
+  }
+
+  h4{
+    color: var(--gold-light);
+  }
+  
+  strong{
+    color: var(--gold-light)
+  }
+  p {
+    color: var(--gray);
+    text-align: center;
+    font-size: 15px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  /* Features */
+  .features {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 40px;
+  }
+  
+  .feature {
+    background: var(--black);
+    padding: 20px;
+    border: 1px solid var(--gold);
+    transition: border-color 0.3s;
+    border-radius: 12px;
+  }
+  
+  .feature:hover { border-color: var(--gold); }
+  
+  .feature-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: var(--gold);
+  }
+  
+  .feature h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  
+  .feature p {
+    text-align: left;
+    font-size: 14px;
+    color: var(--gray);
+  }
+  
+  /* Price Box */
+  .price-box {
+    border: 1px solid var(--gold);
+    padding: 32px 24px;
+    text-align: center;
+    margin-top: 32px;
+  }
+  
+  .price-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--black);
+    padding: 8px 16px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+  }
+  
+  .price {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  
+  .price span {
+    font-size: 24px;
+    margin-left: 8px;
+  }
+  
+  .price-sub {
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: var(--gray);
+    margin-bottom: 24px;
+  }
+
+   .price-sub2 {
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: var(--gray);
+    margin-bottom: 24px;
+    text-align: left;
+  }
+  
+  .price-features {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 24px 0;
+  }
+  
+  .price-features div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+  }
+
+   /* Badge Premium */
+  .badge-premium {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card-bg);
+    border: 1px solid #2A2A2A;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 12px;
+    margin: 24px 0;
+  }
+  .badge-premium::before {
+    content: '✦';
+    color: var(--gold);
+  }
+  
+  /* Sections */
+  section { padding: 40px 0; }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  h2 em { font-style: italic; color: var(--gold); }
+  p {
+    color: var(--gray);
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+  
+  /* Pills livraison */
+  .pills {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .pill {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--card-bg);
+    border: 1px solid #2A2A2A;
+    padding: 14px 18px;
+    border-radius: 50px;
+    font-size: 14px;
+  }
+  .pill-icon { color: var(--gold); }
+  
+  /* Price Card */
+  .price-card {
+    background: var(--card-bg);
+    border: 1px solid #2A2A2A;
+    border-radius: 16px;
+    padding: 24px;
+    margin-top: 24px;
+  }
+  .price-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gray);
+    margin-bottom: 8px;
+  }
+  .price {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+  .price span { font-size: 20px; margin-left: 8px; }
+  .btn-cta {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--black);
+    text-align: center;
+    padding: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    margin: 20px 0;
+    transition: transform 0.2s;
+  }
+  .btn-cta:active { transform: scale(0.98); }
+  .btn-cta:disabled { opacity: 0.6; cursor: not-allowed; }
+  .price-features {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--gray);
+  }
+  .price-feat {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Durable Card */
+  .durable-card {
+    background: var(--card-bg);
+    border: 1px solid #2A2A2A;
+    border-radius: 16px;
+    padding: 32px 24px;
+    margin-top: 32px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .durable-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .durable-card h3 em { color: var(--gold); font-style: italic; }
+  .durable-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .durable-item {
+    display: flex;
+    align-items: start;
+    gap: 12px;
+    font-size: 14px;
+  }
+  .durable-item::before {
+    content: '◆';
+    color: var(--gold);
+    margin-top: 2px;
+  }
+  .durable-tags {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .durable-tag {
+    background: var(--black);
+    border: 1px solid #2A2A2A;
+    border-radius: 8px;
+    padding: 12px 4px;
+    text-align: center;
+  }
+  .durable-tag-label {
+    font-size: 9px;
+    color: var(--gray);
+    letter-spacing: 1px;
+  }
+  .durable-tag-value {
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  
+  
+  
+  /* Form */
+  form {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  label {
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--gray);
+    margin-bottom: 8px;
+    display: block;
+  }
+  
+  input, select {
+    width: 100%;
+    background: var(--gray-dark);
+    border: 1px solid #2A2A2A;
+    padding: 16px;
+    color: var(--white);
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+  
+  /* List */
+  .check-list {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    background: var(--black);
+    border: 1px solid #000000;
+  }
+  
+  .check-item::before {
+    content: '✓';
+    color: var(--gold);
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .success-msg {
+    display: none;
+    background: #1a3a1a;
+    border: 1px solid #4ade80;
+    color: #4ade80;
+    padding: 16px;
+    text-align: center;
+    margin-top: 16px;
+  }
+  
+  .success-msg.show { display: block; }
+
+  .hero-image {
+    width: 100%;
+    margin : 24px 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 9/12;
+    object-fit: cover;
+  }
+
+
+  .form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--gray);
+  margin-bottom: 12px;
+  display: block;
+}
+
+/* QUANTITÉ */
+.qty-selector {
+  display: grid;
+  grid-template-columns: 50px 1fr 50px;
+  background: var(--gray-dark);
+  border: 1px solid #2A2A2A;
+}
+
+.qty-btn {
+  background: transparent;
+  border: none;
+  color: var(--white);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 16px;
+  transition: all 0.2s;
+}
+
+.qty-btn:hover {
+  background: rgba(212,175,55,0.1);
+}
+
+.qty-btn:active {
+  transform: scale(0.95);
+}
+
+.qty-selector input {
+  text-align: center;
+  border: none;
+  border-left: 1px solid #2A2A2A;
+  border-right: 1px solid #2A2A2A;
+  margin: 0;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* COULEUR */
+.color-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.color-selector input[type="radio"] {
+  display: none;
+}
+
+.color-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  background: var(--gray-dark);
+  border: 1px solid #2A2A2A;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.color-selector input:checked + .color-option,
+.color-option.active {
+  border-color: var(--gold);
+}
+
+.color-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.color-dot.gold { background: #D4AF37; }
+.color-dot.silver { background: #C0C0C0; }
+
+/* TOTAL */
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  margin: 24px 0 0;
+  border-top: 1px solid var(--gray-dark);
+  border-bottom: 1px solid var(--gray-dark);
+  font-size: 15px;
+  color: var(--gray);
+}
+
+.total-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: var(--gold);
+  font-weight: 400;
+}
+
+/* Footer */
+  footer {
+    text-align: center;
+    padding: 60px 20px 40px;
+    border-top: 1px solid var(--gray-dark);
+    margin-top: 60px;
+  }
+  footer .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  footer p {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--gray);
+  }
+  footer p span { color: var(--gold); }
+  .copyright {
+    font-size: 11px;
+    color: #555;
+    margin-top: 16px;
+  }
+  
+</style>
+</head>
+<body>
+  <div class="container">
+    <header class="reveal">
+      <div class="logo">J.OPTICS</div>
+      <a href="#commande" class="btn-header">COMMANDER</a>
+    </header>
+
+    <div class="hero-slider reveal" id="heroSlider">
+  <div class="slides">
+    <div class="slide">
+      <img src="IMG_2695.JPG.jpeg" alt="Vision Réinventée">
+      <div class="hero-overlay">
+        <div class="slider-counter"><span id="currentSlide">1</span> / 4</div>
+      </div>
+    </div>
+    
+    <div class="slide">
+      <img src="IMG_2696.JPG.jpeg" alt="Édition Or">
+      <div class="hero-overlay">
+        <div class="slider-counter"><span id="currentSlide2">2</span> / 4</div>
+      </div>
+    </div>
+    
+    <div class="slide">
+      <img src="IMG_2684.PNG" alt="Détails">
+      <div class="hero-overlay">
+        <div class="slider-counter"><span id="currentSlide3">3</span> / 4</div>
+      </div>
+    </div>
+    
+    <div class="slide">
+      <img src="IMG_2685.PNG" alt="Vue">
+      <div class="hero-overlay">
+        <div class="slider-counter"><span id="currentSlide4">4</span> / 4</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="slider-dots" id="sliderDots">
+  <div class="dot active" data-slide="0"></div>
+  <div class="dot" data-slide="1"></div>
+  <div class="dot" data-slide="2"></div>
+  <div class="dot" data-slide="3"></div>
+</div>
+
+
+   <section class="reveal">
+      <div class="badge-premium">Édition Premium · Kinshasa</div>
+      <h2>Une vision <strong>intelligente.</strong><br>Une élégance sans compromis.</h2>
+      <p>Les lunettes Photogray J-OPTICS s'adaptent automatiquement à la lumière, protègent vos yeux et vous offrent un confort visuel exceptionnel tout au long de la journée.</p>
+      
+      <div class="badges reveal">
+      <div class="badge">LIVRAISON GRATUITE À KINSHASA</div>
+      <div class="badge">PAIEMENT À LA LIVRAISON</div>
+      <div class="badge">MONTURE ACIER INOXYDABLE</div>
+      </div>
+
+      <div class="price-card">
+        <div class="price-label">PRIX</div>
+        <div class="price">39<span>USD</span></div>
+        <a href="#commande" class="btn-cta">Commander maintenant</a>
+        <div class="price-features">
+          <div class="price-feat"><span>🚚</span> Livraison gratuite partout à Kinshasa</div>
+          <div class="price-feat"><span>💳</span> Paiement à la livraison</div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="reveal">
+      <h1>Vos yeux <strong>travaillent</strong> plus que jamais.</h1>
+      <p>Entre les écrans, les smartphones, les ordinateurs et l'exposition au soleil, vos yeux sont soumis à une fatigue constante.
+         Les maux de tête, l'inconfort visuel et l'éblouissement font désormais partie du quotidien de nombreuses personnes.</p>
+    </section>
+
+   
+    <section class="reveal">
+      <h2>La technologie au service de <strong>votre confort.</strong></h2>
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">✦</div>
+          <h3>Verres photochromiques</h3>
+          <p>Adaptation automatiquement à la lumière.</p>
+        </div>      
+        <div class="feature">
+          <div class="feature-icon">☀</div>
+          <h3>Protection UV</h3>
+          <p>Filtre les rayons ultraviolets nocifs.</p>
+        </div>
+         <div class="feature">
+          <div class="feature-icon">✦</div>
+          <h3>Anti-lumière bleue</h3>
+          <p>Protège des écrans et smartphones.</p>
+        </div>
+         <div class="feature">
+          <div class="feature-icon">☀</div>
+          <h3>Anti-reflet & polarisés</h3>
+          <p>Vision nette, éblouissement réduit.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="durable-card">
+        <h2>Conçues pour <strong>durer</strong></h2>
+        <div class="durable-list">
+          <div class="durable-item">Monture en acier inoxydable</div>
+          <div class="durable-item">Résistante à la corrosion · Ne rouille pas</div>
+          <div class="durable-item">Confort léger toute la journée</div>
+          <div class="durable-item">Finition élégante haut de gamme</div>
+        </div>
+        <div class="durable-tags">
+          <div class="durable-tag">
+            <div class="durable-tag-label">DESIGN</div>
+            <div class="durable-tag-value">Intemporelle</div>
+          </div>
+          <div class="durable-tag">
+            <div class="durable-tag-label">LÉGÈRETÉ</div>
+            <div class="durable-tag-value">Absolue</div>
+          </div>
+          <div class="durable-tag">
+            <div class="durable-tag-label">CONFORT</div>
+            <div class="durable-tag-value">Premium</div>
+          </div>
+          <div class="durable-tag">
+            <div class="durable-tag-label">CLARTÉ</div>
+            <div class="durable-tag-value">Exceptionelle</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="reveal">
+      <h2>Pourquoi choisir <strong>J-OPTICS</strong> ?</h2>
+      <div class="check-list">
+        <div class="check-item">Verres intelligents photochromiques</div>
+        <div class="check-item">Polarisés et anti-reflet</div>
+        <div class="check-item">Protection UV et lumière bleue</div>
+        <div class="check-item">Monture premium en acier inoxydable</div>
+        <div class="check-item">Contrôle qualité avant expédition</div>
+        <div class="check-item">Livraison gratuite à Kinshasa</div>
+        <div class="check-item">Paiement à la livraison</div>
+        <div class="check-item">Réduction de la fatigue visuelle</div>
+      </div>
+    </section>
+
+    
+    <section id="commande" class="reveal">
+      <h2>Recevez vos lunettes <strong>chez vous.</strong></h2>
+      <p>Remplissez le formulaire -- paiement à la livraison à kinshasa.</p>
+      <form id="orderForm">
+        <div>
+          <label>NOM COMPLET</label>
+          <input type="text" name="nom" placeholder="Votre nom et prénom" required>
+        </div>
+        <div>
+          <label>TÉLÉPHONE</label>
+          <input type="tel" name="telephone" placeholder="+243 ..." required>
+        </div>
+        <div>
+          <label>COMMUNE</label>
+          <input type="text" name="commune" placeholder="Ex. Gombe" required>
+        </div>
+        <div class="form-group">
+         <label>QUANTITÉ</label>
+         <div class="qty-selector">
+         <button type="button" class="qty-btn" data-action="minus">−</button>
+         <input type="number" name="quantite" id="quantite" value="1" min="1" readonly>
+         <button type="button" class="qty-btn" data-action="plus">+</button>
+         </div>
+         </div>
+
+        <div>
+          <label>ADRESSE PRÉCISE</label>
+          <input type ="text" name="adresse" placeholder="Avenue, n°, repère" required>
+        </div>
+
+        <div class="form-group">
+          <label>COULEUR</label>
+          <div class="color-selector">
+          <input type="radio" id="color-gold" name="couleur" value="Doré" checked>
+          <label for="color-gold" class="color-option active">
+          <h3><em>Doré</em></h3>
+          </label>
+          <input type="radio" id="color-silver" name="couleur" value="Argenté">
+          <label for="color-silver" class="color-option">
+          <em>Argenté</em>
+          </label>
+          </div>
+        </div>
+
+        <div class="total-row">
+          <span>Total estimé</span>
+          <span class="total-price"><span id="totalAmount">39</span> USD</span>
+        </div>
+
+        <input type="hidden" name="date" id="date">
+        <button type="submit" class="btn-cta" id="submitBtn">COMMANDER MAINTENANT ›</button>
+        <div class="success-msg" id="successMsg">✅ Commande reçue ! Nous vous contactons sous peu.</div>
+      </form>
+    </section>
+  </div>
+
+   <footer>
+    <div class="logo">J-OPTICS</div>
+    <p>VOIR LE MONDE · <span>AFFIRMER SON STYLE</span></p>
+    <div class="copyright">© 2026 J-OPTICS · Kinshasa, RDC</div>
+  </footer>
+
+<script>
+  // 1. Animation au scroll
+  function reveal() {
+    const reveals = document.querySelectorAll('.reveal');
+    reveals.forEach(el => {
+      const windowHeight = window.innerHeight;
+      const elementTop = el.getBoundingClientRect().top;
+      if (elementTop < windowHeight - 100) {
+        el.classList.add('active');
+      }
+    });
+  }
+  window.addEventListener('scroll', reveal);
+  reveal(); // Initial check
+
+  // 2. Connexion Google Sheets
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwcHKfJEcFWyPhOEwC0k5EpE4EH_wBNpZHw3n7ovf5xNHbnnQV11npxcN67oqyLjCDd/exec';
+  
+  document.getElementById('orderForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const msg = document.getElementById('successMsg');
+    
+    btn.disabled = true;
+    btn.textContent = 'ENVOI EN COURS...';
+    
+    // Ajoute la date
+    document.getElementById('date').value = new Date().toLocaleString('fr-FR');
+    
+    const formData = new FormData(e.target);
+    
+    try {
+      await fetch(SCRIPT_URL, { method: 'POST', body: formData });
+      msg.classList.add('show');
+      e.target.reset();
+      setTimeout(() => {
+        msg.classList.remove('show');
+      }, 5000);
+    } catch (err) {
+      alert('Erreur. Réessayez ou contactez-nous sur WhatsApp.');
+    }
+    
+    btn.disabled = false;
+    btn.textContent = 'COMMANDER MAINTENANT ›';
+  });
+
+  // Prix unitaire
+const PRICE = 39;
+
+// Éléments
+const qtyInput = document.getElementById('quantite');
+const totalEl = document.getElementById('totalAmount');
+
+// Fonction calcul total
+function updateTotal() {
+  const qty = parseInt(qtyInput.value) || 1;
+  totalEl.textContent = PRICE * qty;
+}
+
+// Boutons + et -
+document.querySelectorAll('.qty-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    let val = parseInt(qtyInput.value);
+    if (this.dataset.action === 'plus') val++;
+    if (this.dataset.action === 'minus' && val > 1) val--;
+    qtyInput.value = val;
+    updateTotal();
+  });
+});
+
+// Gestion couleur active
+document.querySelectorAll('.color-option').forEach(option => {
+  option.addEventListener('click', function() {
+    document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// Initial
+updateTotal();
+
+// Hero Slider Auto + Swipe
+let currentSlide = 0;
+const slides = document.querySelector('.slides');
+const dots = document.querySelectorAll('.dot');
+const totalSlides = 4;
+let startX = 0;
+let isDragging = false;
+
+function goToSlide(n) {
+  currentSlide = n;
+  if (currentSlide < 0) currentSlide = totalSlides - 1;
+  if (currentSlide >= totalSlides) currentSlide = 0;
+
+  slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === currentSlide);
+  });
+
+  document.getElementById('currentSlide').textContent = currentSlide + 1;
+}
+
+// Auto slide toutes les 4s
+let autoSlide = setInterval(() => {
+  goToSlide(currentSlide + 1);
+}, 4000);
+
+// Reset auto slide quand user interagit
+function resetAutoSlide() {
+  clearInterval(autoSlide);
+  autoSlide = setInterval(() => {
+    goToSlide(currentSlide + 1);
+  }, 4000);
+}
+
+// Clic sur dots
+dots.forEach(dot => {
+  dot.addEventListener('click', () => {
+    goToSlide(parseInt(dot.dataset.slide));
+    resetAutoSlide();
+  });
+});
+
+// SWIPE MOBILE - Touch events
+slides.addEventListener('touchstart', (e) => {
+  startX = e.touches[0].clientX;
+  isDragging = true;
+  slides.style.transition = 'none';
+  resetAutoSlide();
+});
+
+slides.addEventListener('touchmove', (e) => {
+  if (!isDragging) return;
+  const currentX = e.touches[0].clientX;
+  const diff = currentX - startX;
+  slides.style.transform = `translateX(calc(-${currentSlide * 100}% + ${diff}px))`;
+});
+
+slides.addEventListener('touchend', (e) => {
+  if (!isDragging) return;
+  isDragging = false;
+  slides.style.transition = 'transform 0.5s ease';
+
+  const endX = e.changedTouches[0].clientX;
+  const diff = startX - endX;
+
+});
+
+  // bref, swipe > 50px on change de slide
+  if (diff > 50) {
+    goToSlide(currentSlide + 1)};
+
+  if (diff < -50) {
+     goToSlide(currentSlide -1)};
+
+</script>
+</body>
+</html> 
