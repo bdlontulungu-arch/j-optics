@@ -1080,11 +1080,26 @@ slides.addEventListener('touchmove', (e) => {
 slides.addEventListener('touchend', (e) => {
   if (!isDragging) return;
   isDragging = false;
-  slides.style.transition = 'transform 0.5s ease';
 
   const endX = e.changedTouches[0].clientX;
   const diff = startX - endX;
 
+  slides.style.transition = 'transform 0.5s ease';
+
+  // Swipe vers gauche > 50px = slide suivante
+  if (diff > 50) {
+    goToSlide(currentSlide + 1);
+    resetAutoSlide();
+  }
+  // Swipe vers droite > 50px = slide précédente
+  else if (diff < -50) {
+    goToSlide(currentSlide - 1);
+    resetAutoSlide();
+  }
+  // Swipe trop petit = on revient à la slide actuelle
+  else {
+    goToSlide(currentSlide);
+  }
 });
 
   // bref, swipe > 50px on change de slide
